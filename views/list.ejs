@@ -1,0 +1,8 @@
+<!-- partial可以用include替换 -->
+<!-- 替换前 -->
+<ul><%- partial('listitem', items) %></ul>
+<li><%= listitem %></li>
+<!-- 替换后 -->
+<% items.forEach(function (listitem，index) { %>
+<%- include listitem %>
+<% }) %>

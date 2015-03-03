@@ -1,0 +1,43 @@
+<% include header %>
+<form action="" class="form-horizontal" method="post" role="form" style="width:521px">
+  <fieldset>
+    <h3>用户注册</h3>
+      <% if (message) { %>
+        <div class="alert alert-warning" role="alert">
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          <%- message %>
+        </div>
+      <% } %>
+    <div class="form-group">
+      <label for="username" class="col-md-3 control-label">用户名:</label>
+      <div class="col-md-9">
+        <input type="text" class="form-control" id="username" name="username"  placeholder="用户名" required>
+        <p class="help-block">
+          你的账户名称，用户登陆和显示。
+        </p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password" class="col-md-3 control-label">密码:</label>
+      <div class="col-md-9">
+        <input type="password" class="form-control" id="password" name="password" placeholder="密码" required>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="password-repeat" class="col-md-3 control-label">确认密码:</label>
+      <div class="col-md-9">
+        <input type="password" class="form-control" id="password-repeat" name="password_repeat" placeholder="重复密码" required>
+      </div>
+    </div>
+
+    <div class="" style="width:521px">
+      <button type="submit" class="btn btn-info" style="float:right;width:100px">
+        注册
+      </button>
+    </div>
+
+  </fieldset>
+</form>
+<% include footer %>

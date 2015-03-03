@@ -1,0 +1,11 @@
+<% if (message) { %>
+  <!-- 提示消息框 -->
+  <div class="alert alert-warning alert-dismissible" role="alert">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <%- message %>
+    <button type="button" class="close" data-dismiss="alert">
+      <span aria-hidden="true">&times;</span>
+      <span class="sr-only">Close</span>
+    </button>
+  </div>
+<% } %>
