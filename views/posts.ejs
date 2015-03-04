@@ -6,7 +6,7 @@
         <h2><a href="/u/<%= post.user %>"><%= post.user %></a> 说</h2>
         <p><small><%= post.time.getFullYear() +'.'+ (post.time.getMonth()+1)+'.' + post.time.getDate() %>
           &nbsp&nbsp|&nbsp
-          <%= post.time.getHours()+':'+post.time.getMinutes()+':'+post.time.getSeconds() %></small>
+          <%= (post.time.getHours()+ 8)+':'+post.time.getMinutes()+':'+post.time.getSeconds() %></small>
         </p>
         <p><strong><%- post.post %></strong></p>
       </div>
