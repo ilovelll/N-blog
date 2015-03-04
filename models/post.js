@@ -1,5 +1,7 @@
-var mongodb = require('./db')
+var mongodb = require('mongodb')
 var markdown = require('markdown').markdown
+var MongoClient = mongodb.MongoClient
+var uri = 'mongodb://test1:test1@ds047008.mongolab.com:47008/microblog'
 
 function Post(post) {
   this.user = post.user
@@ -17,79 +19,60 @@ Post.prototype.save = function (callback) {
     post: this.post,
     time: this.time
   }
-  mongodb.open(function (err, db) {
+  MongoClient.connect(uri, {db: {native_parser: true}}, function (err, db) {
     if (err) {
       return callback(err)
     }
-    //读取posts集合
-    db.collection('posts', function (err, collection) {
-      if (err) {
-        mongodb.close()
-        return callback(err)
-      }
-      collection.ensureIndex('user', {unique: true})
-      collection.insert(post, {safe:true}, function (err, post) {
-        mongodb.close()
-        callback(err, post)
-      })
+    var collection = db.collection('posts')
+    collection.insert(post, {w:1}, function (err, post) {
+      db.close()
+      callback(err, post)
     })
   })
 }
 
 Post.get = function (user, callback) {
-  mongodb.open(function (err, db) {
+  MongoClient.connect(uri, {db: {native_parser: true}}, function (err, db) {
     if (err) {
       return callback(err)
     }
-    db.collection('posts', function (err, collection) {
+    var collection = db.collection('posts')
+    var query = {}
+    if (user) {
+      query.user = user
+    }
+    collection.find(query).sort({time:-1}).toArray(function (err, docs) {
       if (err) {
-        mongodb.close()
-        return callback(err)
+        callback(err, null)
       }
-      var query = {}
-      if (user) {
-        query.user = user
-      }
-      collection.find(query).sort({time:-1}).toArray(function (err, docs) {
-        mongodb.close()
-        if (err) {
-          callback(err, null)
-        }
-        var posts = []
-        docs.forEach(function (doc, index) {
-          doc.post = markdown.toHTML(doc.post)
-        })
-        callback(err, docs)
+      var posts = []
+      docs.forEach(function (doc, index) {
+        doc.post = markdown.toHTML(doc.post)
       })
+      db.close()
+      callback(err, docs)
     })
   })
 }
 Post.search = function (q, callback) {
-  mongodb.open(function (err, db) {
+  MongoClient.connect(uri, {db: {native_parser: true}}, function (err, db) {
     if (err) {
       return callback(err)
     }
-    db.collection('posts', function (err, collection) {
-      if (err) {
-        mongodb.close()
-        return callback(err)
-      }
-      var query = {}
-      if (q) {
-        query.post = q
-      }
-      collection.find(query).sort({time:-1}).toArray(function (err, items) {
-        mongodb.close()
-        if (err) {
-          callback(err, null)
-        }
-        var posts = []
-        items.forEach(function (item, index) {
-          var post = new Post({user:item.user, post:item.post, time:item.time})
-          posts.push(post)
-        })
-        callback(err, posts)
+    var collection = db.collection('posts')
+    var query = {}
+    if (q) {
+      query.post = q
+    }
+    collection.find(query).sort({time:-1}).toArray(function (err, items) {
+      if (err) console.warn(err.message);
+      var posts = []
+      items.forEach(function (item, index) {
+        var post = new Post({user: item.user, post: item.post, time: item.time})
+        posts.push(post)
       })
+      db.close()
+      callback(err, posts)
     })
   })
 }

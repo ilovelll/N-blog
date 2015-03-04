@@ -1,4 +1,6 @@
-var mongodb = require('./db')
+var mongodb = require('mongodb')
+var MongoClient = mongodb.MongoClient
+var uri = 'mongodb://test1:test1@ds047008.mongolab.com:47008/microblog'
 
 function User(user) {
   this.name = user.name;
@@ -10,46 +12,35 @@ User.prototype.save = function save(callback) {
     name: this.name,
     password: this.password
   }
-  mongodb.open(function (err, db) {
+  MongoClient.connect(uri, {db: {native_parser: true}}, function (err, db) {
     if (err) {
       return callback(err);
     }
-    db.collection('users', function (err, collection) {
-      if (err) {
-        console.log('users.collection error');
-        mongodb.close()
-        return callback(err)
-      }
-      //为name添加索引
-      collection.ensureIndex('name', {unique: true});
-      collection.insert(user, {safe: true}, function (err, user) {
-        mongodb.close()
-        callback(err, user)
-      })
+    var collection = db.collection('users')
+    //collection.ensureIndex('name', {unique: true})
+    collection.insert(user, {w:1}, function (err, user) {
+      db.close()
+      callback(err, user)
     })
   })
 }
 User.get = function (username, callback) {
-    mongodb.open(function (err, db) {
-      if (err) {
-        console.log('user get error');
-        return callback(err);
+  //获取用户
+  MongoClient.connect(uri, {db: {native_parser: true}}, function (err, db) {
+    if (err) {
+      console.log('user get error');
+      return callback(err);
+    }
+    var collection = db.collection('users')
+    collection.findOne({name: username}, function (err, item) {
+      db.close()
+      if (item) {
+        var user = new User(item)
+        callback(err, user)
+      } else {
+        callback(err, null)
       }
-      db.collection('users', function (err, collection) {
-        if (err) {
-          mongodb.close()
-          return callback(err)
-        }
-        collection.findOne({name: username}, function (err, item) {
-          mongodb.close()
-          if (item) {
-            var user = new User(item)
-            callback(err, user)
-          } else {
-            callback(err, null)
-          }
-        })
-      })
     })
+  })
 }
 module.exports = User
