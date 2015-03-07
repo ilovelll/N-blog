@@ -5,6 +5,9 @@ var User = require('../models/user')
 var Post = require('../models/post')
 var querystring = require('querystring')
 /* GET home page. */
+router.get('/v0.2', function (req, res) {
+  res.render('v0.2/index')
+})
 router.get('/', function(req, res) {
   Post.get(null, function (err, posts) {
     if (!posts) {
