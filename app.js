@@ -28,11 +28,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-  cookie: { maxAge: 3600000 },
+  cookie: { maxAge: 60*60*1000*24*30 },
   secret: Settings.COOKIE_SECRET,
   store: new MongoStore({
-    url: Settings.URL,
-    db: Settings.DB
+    url: Settings.URL
   }),
   resave: false,
   saveUninitialized: false

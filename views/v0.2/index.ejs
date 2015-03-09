@@ -1,4 +1,33 @@
 <% include header %>
 <div class="container">
+  <% if (message) { %>
+    <!-- 提示消息框 -->
+    <div class="alert alert-warning alert-dismissible" role="alert">
+      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+      <%- message %>
+      <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+    </div>
+  <% } %>
+  <div class="row">
+    <div id="feedleft" class="feedleft col-md-2" style="color：gray;">
+      <p>test</p>
+    </div>
+    <div id="feed" class="feed2 col-md-7" style="color：gray;">
+      <div class="postform">
+        <p>有什么有趣的事情告诉朋友们？</p>
+        <form action="/post" method="post">
+          <textarea rows="3" cols="100">
+          </textarea>
+          <button></button>
+        </form>
+      </div>
+    </div>
+    <div id="feedright" class="feedright col-md-3" style="color：gray;">
+      <p>test</p>
+    </div>
+  </div>
 </div>
 <% include footer %>

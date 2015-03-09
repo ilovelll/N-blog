@@ -65,7 +65,6 @@ router.route('/login')
      }
      req.session.user = user
      req.session.error = '登录成功'
-     console.log(req.session);
      res.redirect('/')
    })
 })
@@ -82,7 +81,6 @@ router.route('/reg')
 })
 .post(function (req, res) {
   if (req.body.password_repeat != req.body.password) {
-    console.log(req.body)
     req.session.error='两次输入的密码不一致';
     return res.redirect('/reg');
   }

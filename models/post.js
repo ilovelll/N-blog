@@ -1,7 +1,8 @@
 var mongodb = require('mongodb')
 var markdown = require('markdown').markdown
 var MongoClient = mongodb.MongoClient
-var uri = 'mongodb://test1:test1@ds047008.mongolab.com:47008/microblog'
+var Settings = require('../settings')
+var uri = Settings.URL
 
 function Post(post) {
   this.user = post.user
