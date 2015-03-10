@@ -1,5 +1,5 @@
 var mongodb = require('mongodb')
-var markdown = require('markdown').markdown
+// var markdown = require('markdown').markdown
 var MongoClient = mongodb.MongoClient
 var Settings = require('../settings')
 var uri = Settings.URL
@@ -47,9 +47,9 @@ Post.get = function (user, callback) {
         callback(err, null)
       }
       var posts = []
-      docs.forEach(function (doc, index) {
-        doc.post = markdown.toHTML(doc.post)
-      })
+      // docs.forEach(function (doc, index) {
+      //   doc.post = markdown.toHTML(doc.post)
+      // })
       db.close()
       callback(err, docs)
     })
