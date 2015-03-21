@@ -2,7 +2,7 @@ var mongodb = require('mongodb')
 // var markdown = require('markdown').markdown
 var MongoClient = mongodb.MongoClient
 var Settings = require('../settings')
-var uri = Settings.URL
+var uri = Settings.URI
 
 function Post(post) {
   this.user = post.user

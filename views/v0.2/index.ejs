@@ -19,14 +19,16 @@
       <div class="postform well">
         <p>有什么有趣的事情告诉朋友们？</p>
         <form action="/post" method="post">
-          <textarea rows="3" cols="98"></textarea>
-        </form>
+          <textarea rows="3" cols="98" name="post"></textarea>
+
         <a href="">&#x1f603;  表情</a>
         <a href=""><span class="glyphicon glyphicon-camera"></span>  图片</a>
         <a href=""><span class="glyphicon glyphicon-facetime-video"></span>  视频</a>
         <a href="">#  话题</a>
-        <button type="submit" class="btn btn-success">发布</button>
+        <button type="submit" class="btn btn-success" style="float:right">发布</button>
+      </form>
       </div>
+        <% include posts2 %>
     </div>
     <div id="feedright" class="feedright col-md-3" style="color：gray;">
       <p>test</p>

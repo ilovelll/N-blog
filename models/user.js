@@ -1,7 +1,7 @@
 var mongodb = require('mongodb')
 var MongoClient = mongodb.MongoClient
 var Settings = require('../settings')
-var uri = Settings.URL
+var uri = Settings.URI
 
 function User(user) {
   this.name = user.name;

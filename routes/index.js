@@ -6,7 +6,15 @@ var Post = require('../models/post')
 var querystring = require('querystring')
 /* GET home page. */
 router.get('/v0.2', function (req, res) {
-  res.render('v0.2/index')
+  Post.get(null, function (err, posts) {
+    if (!posts) {
+      posts = []
+    }
+    res.render('v0.2/index', {
+      title: 'weibo主页',
+      posts: posts
+    });
+  })
 })
 router.get('/', function(req, res) {
   Post.get(null, function (err, posts) {
